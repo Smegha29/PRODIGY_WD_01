@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cultural Festivals Around the World</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styles */
+        #navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            height: 60px; /* Set a fixed height for the navbar */
+        }
+
+        #navbar.scrolled {
+            background-color: rgba(51, 51, 51, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        #navbar .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            font-family: 'Georgia', serif;
+        }
+
+        #navbar ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        #navbar ul li {
+            margin: 0 10px;
+        }
+
+        #navbar ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+            font-weight: bold;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        #navbar ul li a:hover {
+            background-color: #444;
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            #navbar ul {
+                flex-direction: column;
+                display: none;
+            }
+
+            #navbar ul.active {
+                display: flex;
+            }
+
+            #navbar .logo {
+                margin-right: auto;
+            }
+
+            #navbar .menu-toggle {
+                display: block;
+                cursor: pointer;
+                color: white;
+                font-size: 1.5em;
+            }
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+
+        /* Hero Section */
+        #hero {
+            height: calc(100vh - 60px); /* Adjusted to account for navbar height */
+            background: url('hero.jpg') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #hero h1 {
+            font-size: 2.5em;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            max-width: 800px;
+            margin: auto;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-x: hidden;
+        }
+
+        .section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .section p {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        /* Festival Grid */
+        .festival-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .festival-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .festival-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .festival-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .festival-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .festival-card h3 {
+            margin: 10px;
+            color: #333;
+        }
+
+        .festival-card p {
+            margin: 10px;
+            color: #777;
+        }
+
+        /* Gallery Styles */
+        .photo-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .photo {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .photo img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s;
+        }
+
+        .photo:hover img {
+            transform: scale(1.05);
+        }
+
+        .photo-info {
+            position: absolute;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+    <!-- FullCalendar CSS and JS -->
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="logo">Festivibe</div>
+        <div class="menu-toggle">☰</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#seasons">Festivals</a></li>
+            <li><a href="#about">About Us</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <div id="hero">
+        <h1>Explore Cultural Festivals Around the World</h1>
+    </div>
+
+    <!-- Festivals by Season Section -->
+    <section id="seasons" class="section">
+        <h2>Festivals by Season</h2>
+        <p>Discover the vibrant celebrations across the globe, categorized by seasons and months of the year.</p>
+    
+        <div class="festival-grid">
+            <!-- January -->
+            <div class="festival-card">
+                <img src="https://th.bing.com/th/id/OIP.a8E_UdeSmVYvUx-9xM5EZAHaE8?rs=1&pid=ImgDetMain" alt="Chinese New Year">
+                <h3>Chinese New Year</h3>
+                <p>A colorful start to the year celebrated in China and beyond.</p>
+            </div>
+            <div class="festival-card">
+                <img src="https://media-cdn.tripadvisor.com/media/photo-s/11/69/b8/8a/group-tours-to-harbin.jpg" alt="Harbin Ice and Snow Festival">
+                <h3>Harbin Ice Festival</h3>
+                <p>China's grand winter spectacle featuring ice sculptures and art.</p>
+            </div>
+    
+            <!-- February -->
+            <div class="festival-card">
+                <img src="https://th.bing.com/th/id/OIP.YunEz03jqD_IdFCLGWp2ZgAAAA?rs=1&pid=ImgDetMain" alt="Rio Carnival">
+                <h3>Rio Carnival</h3>
+                <p>The world-famous carnival in Brazil, full of music and dance.</p>
+            </div>
+            <div class="festival-card">
+                <img src="https://i.pinimg.com/originals/f2/fa/56/f2fa56eb9436dfcc91eab1f8058cf262.jpg" alt="Venice Carnival">
+                <h3>Venice Carnival</h3>
+                <p>A glamorous festival in Italy with masks and grand costumes.</p>
+            </div>
+    
+            <!-- March -->
+            <div class="festival-card">
+                <img src="https://www.adotrip.com/public/images/festivals/master_images/5e62382d16407-holi-1.jpg" alt="Holi">
+                <h3>Holi</h3>
+                <p>The festival of colors, celebrated across India to mark the arrival of spring.</p>
+            </div>
+            <div class="festival-card">
+                <img src="https://th.bing.com/th/id/OIP.7xVDalaFwYvJC-kqP7AhfAHaE8?rs=1&pid=ImgDetMain" alt="St. Patrick's Day">
+                <h3>St. Patrick's Day</h3>
+                <p>An Irish celebration of heritage, marked by parades and green attire.</p>
+            </div>
+    
+            <!-- August -->
+            <div class="festival-card">
+                <img src="https://wallpapercave.com/wp/wp2137831.jpg" alt="La Tomatina">
+                <h3>La Tomatina</h3>
+                <p>A unique festival in Spain where participants throw tomatoes at each other.</p>
+            </div>
+            <div class="festival-card">
+                <img src="https://th.bing.com/th/id/OIP.1GKgECdugSRzVdplMKOZcgHaEK?rs=1&pid=ImgDetMain" alt="Chuseok">
+                <h3>Chuseok</h3>
+                <p>South Korea's harvest festival, celebrating family and ancestral traditions.</p>
+            </div>
+    
+            <!-- September -->
+            <div class="festival-card">
+                <img src="https://images.hindustantimes.com/img/2022/09/30/1600x900/durga_puja_1664502025274_1664502025551_1664502025551.jpg" alt="Durga Puja">
+                <h3>Durga Puja</h3>
+                <p>A grand celebration in India honoring Goddess Durga, marked by artistry and devotion.</p>
+            </div>
+    
+            <!-- October -->
+            <div class="festival-card">
+                <img src="https://th.bing.com/th/id/R.5b849ba42d423675a217428ed7fb354f?rik=PLVBaRCN3KgQMg&riu=http%3a%2f%2feasyday.snydle.com%2ffiles%2f2013%2f08%2fDiwali-celebrations.jpg&ehk=aj4n%2fUG7rfY%2fbSPwxz%2fHU6uWN3qUUrarUau92F5vpho%3d&risl=&pid=ImgRaw&r=0" alt="Diwali">
+                <h3>Diwali</h3>
+                <p>The festival of lights, celebrated in India during autumn.</p>
+            </div>
+            <div class="festival-card">
+                <img src="https://static.tnnbt.in/thumb/msid-105319096,thumbsize-586303,width-1280,height-720,resizemode-75/105319096.jpg" alt="Chhath Puja">
+                <h3>Chhath Puja</h3>
+                <p>A festival dedicated to the Sun God, celebrated in Bihar and other parts of India.</p>
+            </div>
+            <div class="festival-card">
+                <img src="https://th.bing.com/th/id/OIP.HquOGGPFruYXNm47e5EWoQHaE7?rs=1&pid=ImgDetMain" alt="Day of the Dead">
+                <h3>Day of the Dead</h3>
+                <p>A Mexican tradition honoring loved ones who have passed away.</p>
+            </div>
+    
+            <!-- December -->
+            <div class="festival-card">
+                <img src="https://i.pinimg.com/736x/e8/d5/91/e8d5910c28ebae25b5b82765f55886d5.jpg" alt="Christmas">
+                <h3>Christmas</h3>
+                <p>A worldwide celebration of joy, marked by lights, gifts, and family gatherings.</p>
+            </div>
+            <div class="festival-card">
+                <img src="https://th.bing.com/th/id/OIP.55VxLaPpw5MbLoouTDhdOAHaFE?w=696&h=476&rs=1&pid=ImgDetMain" alt="Hanukkah">
+                <h3>Hanukkah</h3>
+                <p>The Jewish festival of lights, celebrating perseverance and faith.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <h2>About This Website</h2>
+        <p>
+            Welcome to the ultimate destination for exploring the rich and diverse cultural festivals celebrated across the globe! 
+            This platform is dedicated to promoting understanding, appreciation, and the joy of festivals that bring people together in celebration.
+            Festivals are a vital part of human culture, offering a glimpse into traditions, beliefs, and shared histories. 
+            Whether it’s the colorful festivities of India, the unique traditions of East Asia, or the vibrant carnivals of South America, 
+            this website brings these experiences to your fingertips.
+            Our goal is to inspire curiosity and a sense of connection by showcasing festivals year-round. 
+            Learn about their origins, significance, and how they are celebrated today. 
+            Explore festivals you may not have heard of, and rediscover the ones you cherish.
+            Join us in celebrating humanity's shared heritage, one festival at a time. Whether you're a curious traveler, 
+            a student of culture, or someone who loves the spirit of celebration, this website is your gateway to the world’s festive wonders.
+        </p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Cultural Festivals. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Scroll Effect for Navbar
+        window.onscroll = function() {
+            let navbar = document.getElementById("navbar");
+            if (window.pageYOffset > 50) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+        };
+
+        // Toggle Menu for Mobile
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('#navbar ul').classList.toggle('active');
+        });
+
+        // FullCalendar Initialization
+        $(document).ready(function() {
+            $('#calendar').fullCalendar({
+                events: [
+                    {
+                        title: 'Chinese New Year',
+                        start: '2024-01-25'
+                    },
+                    {
+                        title: 'Rio Carnival',
+                        start: '2024-02-21'
+                    },
+                    // Add more events here
+                ],
+                eventClick: function(event) {
+                    alert('Festival: ' + event.title);
+                    // You can customize this to show a modal with more details
+                }
+            });
+        });
+    </script>
+</body>
+</html>
